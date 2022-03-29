@@ -2,7 +2,51 @@
 
 /* Add padding to containers */
 .container {
-  padding: 16px;
+ 
+  max-width: 500px;
+  margin: auto;
+
+  
+  border: 5px solid #000000;
+  border-radius: 10px;
+  margin-top: 2%;
+  
+
+  padding-top: 15x;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  
+  background-color: rgb(255, 255, 255);
+
+}
+
+.container1{
+  background-image: url("/assets/piano_music_background_style_80581_1920x1080.jpg");
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  
+}
+
+#logopic{
+  display: block;
+ 
+  margin-right: auto;
+  width: 20%;
+}
+
+h1{
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p{
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 /* Full-width input fields */
@@ -28,7 +72,7 @@ hr {
 
 /* Set a style for the submit/register button */
 .registerbtn {
-  background-color: #04AA6D;
+  background-color: #2304aa;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;
@@ -51,4 +95,5 @@ a {
 .signin {
   background-color: #f1f1f1;
   text-align: center;
+  padding: 10px;
 }
