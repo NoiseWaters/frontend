@@ -1,0 +1,100 @@
+* {box-sizing: border-box}
+
+/* Add padding to containers */
+
+.container {
+ 
+  max-width: 500px;
+  margin: auto;
+
+  
+  border: 5px solid #000000;
+  border-radius: 10px;
+  margin-top: 5%;
+  
+
+  padding-top: 15x;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  
+  background-color: rgb(255, 255, 255);
+
+}
+
+.container1{
+  background-image: url("/assets/piano_music_background_style_80581_1920x1080.jpg");
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  
+}
+
+
+h1{
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p{
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#logopic{
+  display: block;
+ 
+  margin-right: auto;
+  width: 20%;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+
+.loginbtn {
+  background-color: #2304aa;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  font-size: medium;
+}
+
+.loginbtn:hover {
+  opacity:1;
+}
+
+
+a {
+  color: dodgerblue;
+}
+
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px;
+}
