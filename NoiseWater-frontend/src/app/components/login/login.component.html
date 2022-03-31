@@ -7,16 +7,16 @@
             <hr>
         
                 <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter username" name="username" id="username" required>
+                <input [(ngModel)]="username" type="text" placeholder="Enter username" name="username" id="username" required>
 
 
             
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                <input [(ngModel)]="password" type="password" placeholder="Enter Password" name="psw" id="psw" required>
         
             <hr>
         
-            <button type="submit" class="loginbtn">Login</button>
+            <button type="submit" class="loginbtn" (click)="login()">Login</button>
             <div class="signin">
             <p>Don't have an account yet? <a href="/register-page">Register</a>.</p>
         </div>
