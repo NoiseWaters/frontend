@@ -1,28 +1,30 @@
 <form>
     <div class="container1">
         <img src="\assets\whiteLogo.png" id="logopic" alt="logopic">
-        <div class="container">    
+        <div class="container">
             <h1>Login</h1>
             <p>Welcome back! Please enter your info.</p>
             <hr>
-        
+
                 <label for="username"><b>Username</b></label>
                 <input [(ngModel)]="username" type="text" placeholder="Enter username" name="username" id="username" required>
 
 
-            
+
                 <label for="psw"><b>Password</b></label>
                 <input [(ngModel)]="password" type="password" placeholder="Enter Password" name="psw" id="psw" required>
-        
+
             <hr>
-        
+
             <button type="submit" class="loginbtn" (click)="login()">Login</button>
             <div class="signin">
             <p>Don't have an account yet? <a href="/register-page">Register</a>.</p>
+            <p>Home <a href="/home"></a></p>
+
         </div>
-        
+
     </div>
     </div>
-  
+
   </form>
 
