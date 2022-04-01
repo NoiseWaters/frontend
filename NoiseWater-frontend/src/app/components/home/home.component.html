@@ -6,8 +6,13 @@
           <section id="entry-text" class="card">
             <p>Your Playlist</p>
             <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <input id="song-name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" (click)="fetchCall()" >Search</button>
+
+
+              <p id="resp-name"></p>
+              <!-- <p id="resp-song"></p> -->
+
             </form>
           </section>
         </main>
