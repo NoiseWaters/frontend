@@ -1,32 +1,39 @@
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <div class="container1">
+    
     <img src="\assets\whiteLogo.png" id="logopic" alt="logopic">
 
         <main>
           <section id="entry-text" class="card">
-            <p>Your Playlist</p>
+            <div id="paragraph">
+            
+          </div>
+          <br>
+            
             <form class="d-flex">
               <input id="song-name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit" (click)="fetchCall()" >Search</button>
+              <button class="btn btn-outline-success" type="submit" (click)="fetchCall()">Search</button>
 
-
-              <p id="resp-name"></p>
+                <button id="logout" (click)="logout()" type="submit"  >Logout</button>
+                    <button id="deleteAcc" (click)="deleteAccount()" type="submit"  >Delete Account</button>
+              
+                    <p id="resp-name"></p>
               <!-- <p id="resp-song"></p> -->
 
             </form>
           </section>
         </main>
   </div>
-
-
-    <!-- This will display returned songs by song name-->>
-
-      <!-- <div class="modal" id="add-modal"
-      [ngStyle]="{'display':displayStyle}">
-        <div class="modal__content">
-          <label for="song">Song Name</label>
-          <input type="text" name="song-name" id="song" />
-          <label for="artist">Artist Name</label>
-          <input type="text" name="artist-name" id="artist" />
-        </div> -->
-
+  <div class="modal" id="add-modal"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal__content" id ="modal-content">
+    <!-- <p id="resp-name"></p>
+    <p id="resp-coll"></p>
+    <P id="resp-artist"></P> -->
+    <audio id="audioplayer" controls >
+      <source src="" type="audio/m4a" id="audiosource">
+    </audio>
+  </div>
+</div>
+   

@@ -6,8 +6,24 @@
 html {
   font-family: sans-serif;
 }
-
-
+#logout {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: #00329e;
+}
+#deleteAcc {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #00329e;
+}
+#paragraph{
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 900;
+  font-size: 150%;
+}
 .container1{
   background-image: url("/assets/piano_music_background_style_80581_1920x1080.jpg");
   position: fixed;
@@ -17,6 +33,21 @@ html {
   right: 0;
   overflow: auto;
 
+  
+
+}
+
+.w3-xlarge:hover{
+  color: orange;
+}
+
+.ap{
+  display: inline-block;
+}
+
+#add-modal{
+  top: 20px;
+  bottom: 100px;
 }
 
 * {

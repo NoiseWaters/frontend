@@ -31,14 +31,20 @@ export class Song {
     id: number;
     songId: number;
     songName: string;
+    artistName: string;
+    prevUrl: string;
 
     constructor(
       id: number,
       songId: number,
       songName: string,
+      artistName: string,
+      prevUrl: string,
 )   {
       this.id = id
       this.songId = songId
       this.songName = songName
+      this.artistName = artistName
+      this.prevUrl = prevUrl
     }
   }
