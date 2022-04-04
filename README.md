@@ -11,8 +11,8 @@ To get started, all you have to do is register, login, and begin your search! Ty
 
 ## Authors
 
-ex. Joshua Smith 
-ex. Alec Hudson
+* Joshua Smith 
+* Alec Hudson
 
 ## Version History
 
