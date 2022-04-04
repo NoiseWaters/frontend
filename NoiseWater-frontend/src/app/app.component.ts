@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { User } from 'src/app/model/user';
+import { Song } from 'src/app/model/user';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,15 +8,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public isLoggedIn: boolean = false;
+  id: number = 0;
   username: string = '';
-  updateUserData(username: string): void {
-    this.username = username;
-  }
-
-  signOut(): void {
-
-    window.location.reload();
-    // reloading the window clears the session storage and log out the user
-
+  password: string = '';
+  email: string = '';
+  songs: Song[] = [];
+  updateUserData(user: User): void {
+    this.id = user.id;
+    this.username = user.username;
+    this.password = user.password;
+    this.email = user.email;
+    this.songs = user.songs;
   }
 }

@@ -4,6 +4,7 @@
       
       <img src="\assets\whiteLogo.png" id="logopic" alt="logopic">
     <div class="container">
+      <br>
       <h1>Register</h1>
       <p>Nice to meet you rockstar! Please enter your info to create a new account!</p>
       <hr>
@@ -17,7 +18,7 @@
       <input [(ngModel)]="user.password" type="password" placeholder="Enter Password" name="psw" id="psw" required>
   
       <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+      <input [(ngModel)]="password2" type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
       <hr>
   
 

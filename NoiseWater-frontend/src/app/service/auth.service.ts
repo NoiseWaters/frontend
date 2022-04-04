@@ -13,7 +13,7 @@ export class AuthService {
     headers: new HttpHeaders({'Content-Type' : 'application/json'})
   }
 
-  loginUrl = url + 'users/find'; // to trigger the controller method at http://localhost:5000/api/login in API
+  loginUrl = url + '/users/find'; // to trigger the controller method at http://localhost:5000/api/login in API
 
   constructor(private http: HttpClient) { }
 

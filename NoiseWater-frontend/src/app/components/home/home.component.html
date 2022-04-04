@@ -1,27 +1,38 @@
-
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/0fd8919d3f.js" crossorigin="anonymous"></script>
+</head>
   <div class="container1">
+    
     <img src="\assets\whiteLogo.png" id="logopic" alt="logopic">
 
         <main>
           <section id="entry-text" class="card">
-            <p>Your Playlist</p>
+            <div id="paragraph">
+            
+          </div>
+          <br>
+            
             <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <input id="song-name" class="form-control me-2" type="search" placeholder="Search for any song!" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" (click)="fetchCall()">Search</button>
+
+                <button id="logout" (click)="logout()" type="submit"  >Logout</button>
+                    <button id="deleteAcc" (click)="deleteAccount()" type="submit"  >Delete Account</button>
+              
+                    <p id="resp-name"></p>
+              <!-- <p id="resp-song"></p> -->
+
             </form>
+            <br>
+            <h2 id="h2">Your Playlist:</h2>
+            
+            <div id="song-list-container" class="song-list-container">
+
+            </div>
           </section>
+          
         </main>
   </div>
-
-
-    <!-- This will display returned songs by song name-->>
-
-      <!-- <div class="modal" id="add-modal"
-      [ngStyle]="{'display':displayStyle}">
-        <div class="modal__content">
-          <label for="song">Song Name</label>
-          <input type="text" name="song-name" id="song" />
-          <label for="artist">Artist Name</label>
-          <input type="text" name="artist-name" id="artist" />
-        </div> -->
-
+   

@@ -4,6 +4,7 @@ import {User} from 'src/app/model/user';
 import { UserService } from 'src/app/service/user-service.service';
 import { ClientMessage } from './../../model/client-message';
 import swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +15,11 @@ export class RegisterComponent implements OnInit {
   
   public user = new User(0, '', '', '', []);
   public clientMessage = new ClientMessage('');
+  password2: string = '';
   
-  constructor(private userService : UserService) { }
+
+  
+  constructor(private userService : UserService, private router : Router) { }
   public registerUser(): void {
 
     console.log(this.user);
@@ -44,12 +48,39 @@ export class RegisterComponent implements OnInit {
         title: 'Grrr...',
         text: 'Your passwords must match!',
       })
-    } else{
+    } else if (!this.user.email.includes("@") && !this.user.email.includes(".com") && !this.user.email.includes(".net") && !this.user.email.includes(".org") && !this.user.email.includes(".edu")){
+      swal.fire({
+        icon: 'error',
+        title: 'Grrr...',
+        text: 'You must enter a valid email!',
+      })
+    } 
+    else{
       console.log('hello')
       this.userService.registerUser(this.user)
       .subscribe(
-        data => this.clientMessage.message = `Successfully registered ${data.username}`,
-        error => this.clientMessage.message = `Something went wrong. Error ${error}`);
+        data => {
+          this.clientMessage.message = `Successfully registered ${data.username}`;
+          swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Your account has been created! Login to view your profile!',
+          })
+          this.router.navigateByUrl('/login-page');
+        },
+        error => {
+          this.clientMessage.message = `Something went wrong. Error ${error}`
+          swal.fire({
+            icon: 'error',
+            title: 'Whoopsie Daisies!',
+            text: 'This username already exists!',
+          })
+        });
+        this.user.username = '';
+        this.user.password = '';
+        this.user.email = '';
+        this.user.password = '';
+        this.password2 = '';
     }
     
   }
