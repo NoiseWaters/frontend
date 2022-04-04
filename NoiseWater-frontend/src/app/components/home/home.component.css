@@ -37,9 +37,17 @@ html {
 
 }
 
-.w3-xlarge:hover{
-  color: orange;
+h2{
+  text-align: center;
 }
+
+.fa-thumbs-up:hover{
+  color:red !important;
+}
+.fa-thumbs-up-o:hover{
+  color:red !important;
+}
+
 
 .ap{
   display: inline-block;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../model/user';
+import { Song } from '../model/user';
 import { catchError, Observable, throwError } from 'rxjs';
 import { url } from './../../environments/environment';
 
@@ -60,6 +61,12 @@ export class UserService {
 
   search(user: User): Observable<User>{
     return this.http.post<User>(`${userUrl}/findNoPwd`, user, this.httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  removeSong(s : Song, u : User){
+    s.artistName = u.username;
+    return this.http.post<User>(`${userUrl}/deletesong`, s, this.httpOptions)
     .pipe(catchError(this.handleError));
   }
 

@@ -2,11 +2,14 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppComponent } from 'src/app/app.component';
 import { UserService } from '../../service/user-service.service';
+import { SongService} from '../../service/song.service';
 import { ngbCarouselTransitionOut } from '@ng-bootstrap/ng-bootstrap/carousel/carousel-transition';
 import Swal from 'sweetalert2';
 import { User } from 'src/app/model/user';
 import { Song } from 'src/app/model/user';
 import { Router } from '@angular/router';
+import { DeclarationListEmitMode } from '@angular/compiler';
+
 
 let songName;
 let respSong;
@@ -24,7 +27,7 @@ export class HomeComponent{
   httpOptions = {
     headers: new HttpHeaders({'Content-Type' : 'application/json'})
   }
-  constructor(private router: Router, private userService : UserService, private http: HttpClient, private appComponent: AppComponent) { 
+  constructor(private songService : SongService, private router: Router, private userService : UserService, private http: HttpClient, private appComponent: AppComponent) { 
     
     if (!appComponent.username){
       this.router.navigateByUrl('login-page');
@@ -35,17 +38,125 @@ export class HomeComponent{
 
 //<img src="\assets\whiteLogo.png" id="logopic" alt="logopic">
   ngOnInit(): void { 
+    
+    //initalizes test
+    
     const divelem = <HTMLDivElement>document.getElementById('paragraph');
+    let outerDiv = document.getElementById("song-list-container");
     let para =document.createElement('p1');
-    let text = document.createTextNode(`A ${this.appComponent.username} Type Beat!`)
+    let text = document.createTextNode(`Hello, ${this.appComponent.username}!`)
     let child = para.appendChild(text);
     divelem.appendChild(child);
+    
+    let yourP = document.getElementById('h2');
+    yourP?.setAttribute('style', 'font-weight: bold;')
 
-    console.log(this.appComponent.songs);
-    // let u = this.userService.search(new User(0, this.appComponent.username, '', '', []));
-    // console.log(u)
+    
+    //initializes songs
+    const list = document.createElement('ol');
+    list.setAttribute("id", "listId")
+
+    for(let i in this.appComponent.songs){
+        this.http.get<any>(`https://itunes.apple.com/lookup?id=${this.appComponent.songs[i].songId}`).subscribe((data) => {
+        
+        let previUrl = data.results[0].previewUrl;
+        let songTitle = this.appComponent.songs[i].songName;
+        let artist = this.appComponent.songs[i].artistName;
+
+        const songListDiv = document.createElement('div');
+        songListDiv.setAttribute('class', 'w3-xlarge')
+        //songListDiv.setAttribute('id', `i${i}`)
+        let count = 0;
+        for(let i in outerDiv?.children){
+          count++;
+        }
+        songListDiv.setAttribute('id', `i${count-3}`);
+        const title = document.createElement('h3');
+        const artistName = document.createElement('h3');
+        const player = document.createElement('audio');
+        const source = document.createElement('source');
+        const brk = document.createElement('br');
+       
+        const span = document.createElement('span');
+        span.setAttribute('style', 'color: red')
+        span.addEventListener('mouseleave', (evt) => span.setAttribute('style', 'color: red;'))
+        span.addEventListener('mouseover', (evt) => span.setAttribute('style', 'color: orange;'))
+        const icon = document.createElement('i');
+        
+        icon.setAttribute('class', 'fa fa-trash');
+        
+        icon.addEventListener('click',(evt) => {
+          let num = parseInt(songListDiv.getAttribute('id')!.substring(1));
+          this.deleteSong(num)
+        });
+        
+        span.appendChild(icon)
+
+        player.controls = true;
+        player.setAttribute("class", "ap");
+        
+        source.setAttribute('src', previUrl);
+        
+
+        player.appendChild(source);
+        
+        player.setAttribute("preload", "auto")
+        
+        
+        title.innerText = `Song: ${songTitle}`;
+        artistName.innerText = `Artist: ${artist}`;
+
+        let imgUrl = data.results[0].artworkUrl100;
+        let imgElem = document.createElement('img');
+        imgElem.setAttribute('src', imgUrl);
+        imgElem.setAttribute('style', 'border: 5px solid #555;')
+
+        songListDiv.appendChild(imgElem)
+        songListDiv.appendChild(title);
+        songListDiv.appendChild(artistName);
+        songListDiv.appendChild(player);
+        songListDiv.appendChild(span);
+        songListDiv.appendChild(brk);
+        //div.appendChild(brk)
+        
+        outerDiv?.appendChild(songListDiv);
+        
+      });
+      }
+     
+      
+
 
 }
+
+
+  deleteSong(index : number){
+    console.log("INDEX = " + index);
+    let newSong = new Song(this.appComponent.songs[index].id, this.appComponent.songs[index].songId, this.appComponent.songs[index].songName, this.appComponent.songs[index].artistName);
+    let newUser = new User(this.appComponent.id, this.appComponent.username, this.appComponent.password, this.appComponent.email, this.appComponent.songs);
+    console.log(newSong);
+    this.userService.removeSong(newSong, newUser).subscribe((data) =>{
+      this.appComponent.updateUserData(new User(data.id, data.username, data.password, data.email, data.songs));
+      let divElem = document.getElementById(`i${index}`)
+      console.log(divElem);
+      divElem?.remove();
+      
+      let outerDiv = document.getElementById('song-list-container')
+
+      for(let i in outerDiv?.children){
+        if (parseInt(i) >= index){
+          let num = outerDiv?.children[parseInt(i)].getAttribute('id')?.substring(1);
+          outerDiv?.children[parseInt(i)].setAttribute('id', `i${parseInt(num!)-1}`)
+        }
+        // console.log(i)
+        // console.log(outerDiv?.childNodes[parseInt(i)]);
+      }
+      
+
+      console.log(new User(this.appComponent.id, this.appComponent.username, this.appComponent.password, this.appComponent.email, this.appComponent.songs));
+    });
+
+  }
   
   // displayStyle = "none";
   // openModal($event) {
@@ -71,10 +182,10 @@ export class HomeComponent{
     // replacing space in song input with "+" to fit url syntax
     // has higher time complexity than using regex -- change to regex syntax to be faster
     var songNameRep = songNameVal.split(' ').join('+');
-    console.log(songNameRep);
+    
     // testing button
     // console.log('button works');
-    this.http.get<any>(`https://itunes.apple.com/search?term=${songNameRep}&entity=song&limit=5`).subscribe(response => this.rendorSong(response));
+    this.http.get<any>(`https://itunes.apple.com/search?term=${songNameRep}&entity=song&limit=10`).subscribe(response => this.rendorSong(response));
     //fetch(`https://itunes.apple.com/search?term=${songNameRep}`, { mode: 'no-cors'})
       // turn response into json
       //.then(response => response.json())
@@ -85,7 +196,7 @@ export class HomeComponent{
     // save the name returned from the api into a variable
     
     
-    
+    let outerDiv = document.getElementById('song-list-container');
     const list = document.createElement('ul');
 
     for(let i in data.results){
@@ -101,14 +212,17 @@ export class HomeComponent{
       const player = document.createElement('audio');
       const source = document.createElement('source');
       const brk = document.createElement('br');
-      const icon = document.createElement('i');
-
-      icon.setAttribute('class', 'fa fa-thumbs-up');
-      //icon.setAttribute('id', `${i}`);
-      //icon.setAttribute('(click)', `addSong(${i})`);
-      //icon.addEventListener('click', addSong(i));
-      icon.addEventListener('click',(evt) => addSong(i));
       
+      const icon = document.createElement('i');
+      
+      const span = document.createElement('span');
+      span.setAttribute('style', 'color: dodgerblue')
+      span.addEventListener('mouseleave', (evt) => span.setAttribute('style', 'color: dodgerblue;'))
+      span.addEventListener('mouseover', (evt) => span.setAttribute('style', 'color: red;'))
+      icon.setAttribute('class', 'fa fa-thumbs-up');
+      icon.addEventListener('click',(evt) => addSong(i));
+      span.appendChild(icon)
+
       player.controls = true;
       player.setAttribute("class", "ap");
       
@@ -122,18 +236,30 @@ export class HomeComponent{
       
       title.innerText = `Song: ${songTitle}`;
       artistName.innerText = `Artist: ${artist}`;
+
+      let imgUrl = data.results[i].artworkUrl100;
+      let imgElem = document.createElement('img');
+      imgElem.setAttribute('src', imgUrl);
+      imgElem.setAttribute('style', 'border: 5px solid #555;')
+
       
+
+      div.appendChild(imgElem)
       div.appendChild(title);
       div.appendChild(artistName);
       div.appendChild(player);
-      div.appendChild(icon);
+      div.appendChild(span);
       //div.appendChild(brk)
       
+      list.appendChild(brk)
       list.appendChild(div);
+      
     }
 
 
     Swal.fire({
+      icon: 'info',
+      title: "Here's what we found:",
       html: list,
       //color: '#716add',
     }
@@ -141,15 +267,105 @@ export class HomeComponent{
 
   let apc = this.appComponent;
   let userve = this.userService;
-  function addSong(s : string){
-        
-        let deletedUser = new User(apc.id, apc.username, apc.password, apc.email, []);
-    
+  let d = data;
+  let addSong = (s : string) =>{
         let index = parseInt(s);
-        apc.songs.push(new Song(0, data.results[index].trackId, data.results[index].trackName, data.results[index].artistName, data.results[index].previewUrl))
-        let addedUser = new User(apc.id, apc.username, apc.password, apc.email, [apc.songs[apc.songs.length-1]])
 
-        userve.addSong(addedUser).subscribe();
+        
+        // console.log((data.results[index].previewUrl))
+
+        apc.songs.push(new Song(0, data.results[index].trackId, data.results[index].trackName, data.results[index].artistName))
+        // console.log(apc.songs)
+        let addedUser = new User(apc.id, apc.username, apc.password, apc.email, [apc.songs[apc.songs.length-1]])
+        // console.log(addedUser);
+
+        userve.addSong(addedUser).subscribe((data) => {
+          this.appComponent.updateUserData(new User(data.id, data.username, data.password, data.email, data.songs));
+
+          let listToAppendTo = document.getElementById('song-list-container');
+          let previUrl = d.results[index].previewUrl;
+          let songTitle = d.results[index].trackName;
+          let artist = d.results[index].artistName;
+
+          const div = document.createElement('div');
+          div.setAttribute('class', 'w3-xlarge')
+          
+          let count = 0;
+          for(let i in outerDiv?.children){
+            count++;
+          }
+          div.setAttribute('id', `i${count-3}`);
+          console.log(div.getAttribute('id'));
+          const title = document.createElement('h3');
+          const artistName = document.createElement('h3');
+          const player = document.createElement('audio');
+          const source = document.createElement('source');
+          const brk = document.createElement('br');
+          
+          
+          const span = document.createElement('span');
+          span.setAttribute('style', 'color: red')
+          span.addEventListener('mouseleave', (evt) => span.setAttribute('style', 'color: red;'))
+          span.addEventListener('mouseover', (evt) => span.setAttribute('style', 'color: orange;'))
+          const icon = document.createElement('i');
+
+          icon.setAttribute('class', 'fa fa-trash');
+          //icon.setAttribute('id', `${i}`);
+          //icon.setAttribute('(click)', `addSong(${i})`);
+          //icon.addEventListener('click', addSong(i));
+          
+          icon.addEventListener('click',(evt) => {
+            let num = parseInt(div.getAttribute('id')!.substring(1));
+            this.deleteSong(num)
+          });
+          
+          span.appendChild(icon);
+
+          player.controls = true;
+          player.setAttribute("class", "ap");
+          
+          source.setAttribute('src', previUrl);
+          
+    
+          player.appendChild(source);
+          
+          player.setAttribute("preload", "auto")
+          
+          
+          title.innerText = `Song: ${songTitle}`;
+          artistName.innerText = `Artist: ${artist}`;
+          
+          let imgUrl = d.results[index].artworkUrl100;
+          let imgElem = document.createElement('img');
+          imgElem.setAttribute('src', imgUrl);
+          imgElem.setAttribute('style', 'border: 5px solid #555;')
+  
+          div.appendChild(imgElem)
+          div.appendChild(title);
+          div.appendChild(artistName);
+          div.appendChild(player);
+          div.appendChild(span);
+          div.appendChild(brk);
+
+
+          listToAppendTo?.appendChild(div);
+          // let deleteSong2 = (index : number) =>{
+          //   let newSong = new Song(this.appComponent.songs[index].id, this.appComponent.songs[index].songId, this.appComponent.songs[index].songName, this.appComponent.songs[index].artistName);
+          //   let newUser = new User(this.appComponent.id, this.appComponent.username, this.appComponent.password, this.appComponent.email, this.appComponent.songs);
+          //   console.log(newSong);
+          //   this.userService.removeSong(newSong, newUser).subscribe((data) =>{
+          //     this.appComponent.updateUserData(new User(data.id, data.username, data.password, data.email, data.songs));
+              
+          //     this.updatePageAfterDelete();
+              
+          //   });
+          // }
+
+        });
+        
+        
+
+        //this.updatePage();
         //apc.songs.pop();
         // userve.deleteAccount(deletedUser).subscribe((data) => {console.log(data); console.log('success delete!')}, (error) =>{console.log(error)});
         
