@@ -22,7 +22,6 @@ ex. Alec Hudson
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
 * [iTunes search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html)
 * [SweetAlert2](https://sweetalert2.github.io/)
 
